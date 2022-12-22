@@ -1,81 +1,78 @@
-//2020 ¾Ë°í¸®Áò ±â¸» ÇÁ·ÎÁ§Æ® - 12ÆÀ
-//2016316016 ¼Õºñ¾Æ
-//2016314015 ¹ÚÀç¿¬
-//3. 8*8 ±×¸®µå ¹ÙµÏ
+//8*8 ê·¸ë¦¬ë“œ ë°”ë‘‘
 
 #include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <conio.h>
 
-#define UP  72         // À§ÂÊ ÀÌµ¿ (¹æÇâÅ°·Î ÀÌµ¿)
-#define DOWN 80         // ¾Æ·¡ÂÊ ÀÌµ¿ (¹æÇâÅ°·Î ÀÌµ¿)
-#define LEFT 75         // ¿ŞÂÊ ÀÌµ¿ (¹æÇâÅ°·Î ÀÌµ¿)
-#define RIGHT 77      // ¿À¸¥ÂÊ ÀÌµ¿ (¹æÇâÅ°·Î ÀÌµ¿)
-#define ENTER 32      // ¹ÙµÏµ¹ ³õ±â (¿£ÅÍ)
-#define RETURN 8        // ¹ÙµÏµ¹ ¹«¸£±â (¹é½ºÆäÀÌ½º)
+#define UP  72         // ìœ„ìª½ ì´ë™ (ë°©í–¥í‚¤ë¡œ ì´ë™)
+#define DOWN 80         // ì•„ë˜ìª½ ì´ë™ (ë°©í–¥í‚¤ë¡œ ì´ë™)
+#define LEFT 75         // ì™¼ìª½ ì´ë™ (ë°©í–¥í‚¤ë¡œ ì´ë™)
+#define RIGHT 77      // ì˜¤ë¥¸ìª½ ì´ë™ (ë°©í–¥í‚¤ë¡œ ì´ë™)
+#define ENTER 32      // ë°”ë‘‘ëŒ ë†“ê¸° (ì—”í„°)
+#define RETURN 8        // ë°”ë‘‘ëŒ ë¬´ë¥´ê¸° (ë°±ìŠ¤í˜ì´ìŠ¤)
 
-#define CLEAR 0         // ¹è¿­ ÃÊ±âÈ­
+#define CLEAR 0         // ë°°ì—´ ì´ˆê¸°í™”
 #define NONE 0
-#define MAPSIZE 8      // ¹ÙµÏÆÇ Å©±â ÁöÁ¤ (8*8)
+#define MAPSIZE 8      // ë°”ë‘‘íŒ í¬ê¸° ì§€ì • (8*8)
 #define START 1
 #define END 0
 #define NO 0
-#define player1 1      // »ç¿ëÀÚ 1
-#define player2 2      // »ç¿ëÀÚ 2
-#define PLAY 1         // ¹ÙµÏ ½ÃÀÛÇÒ ¶§
+#define player1 1      // ì‚¬ìš©ì 1
+#define player2 2      // ì‚¬ìš©ì 2
+#define PLAY 1         // ë°”ë‘‘ ì‹œì‘í•  ë•Œ
 #define OK 1
 #define YES 1
 #define TRUE 1
 #define FALSE 0
 #define OK_COUNT 4
 
-int map[MAPSIZE][MAPSIZE];                  // Ãâ·Â¿ë Map
-int checkHouse[MAPSIZE][MAPSIZE];           // ³õ´Â À§Ä¡¸¦ ±âÁØÀ¸·Î ÁıÀÌ ÀÖ´ÂÁö ÆÇ´ÜÇÏ±â À§ÇÑ Map
+int map[MAPSIZE][MAPSIZE];                  // ì¶œë ¥ìš© Map
+int checkHouse[MAPSIZE][MAPSIZE];           // ë†“ëŠ” ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì§‘ì´ ìˆëŠ”ì§€ íŒë‹¨í•˜ê¸° ìœ„í•œ Map
 int x, y = 3;
-int displayX = 0, displayLineY = 10, displayY = 12;   // Ä¿¼­ Ãâ·Â
-char mapGrid[] = "¦£¦¨¦¤¦§¦«¦©¦¦¦ª¦¥";            // ¹ÙµÏÆÇ ±×¸®±â
+int displayX = 0, displayLineY = 10, displayY = 12;   // ì»¤ì„œ ì¶œë ¥
+char mapGrid[] = "â”Œâ”¬â”â”œâ”¼â”¤â””â”´â”˜";            // ë°”ë‘‘íŒ ê·¸ë¦¬ê¸°
 
-int countReset1 = 0;                     // for player 1) ÁıÀÌ »ı°Ü µ¹À» Ä¡¿ï ¶§ Áö¿ì±â À§ÇÑ count ¼ö
-int countReset2 = 0;                     // for player 2) ÁıÀÌ »ı°Ü µ¹À» Ä¡¿ï ¶§ Áö¿ì±â À§ÇÑ count ¼ö
-int count_return = 0;                     //µÎ ¹ø±îÁö ¹«¸£±â È®ÀÎÇÏ´Â º¯¼ö
-int totalCount = 0;                      // Áö±İ±îÁö ³õÀº ¹ÙµÏµ¹ÀÇ °³¼ö
+int countReset1 = 0;                     // for player 1) ì§‘ì´ ìƒê²¨ ëŒì„ ì¹˜ìš¸ ë•Œ ì§€ìš°ê¸° ìœ„í•œ count ìˆ˜
+int countReset2 = 0;                     // for player 2) ì§‘ì´ ìƒê²¨ ëŒì„ ì¹˜ìš¸ ë•Œ ì§€ìš°ê¸° ìœ„í•œ count ìˆ˜
+int count_return = 0;                     //ë‘ ë²ˆê¹Œì§€ ë¬´ë¥´ê¸° í™•ì¸í•˜ëŠ” ë³€ìˆ˜
+int totalCount = 0;                      // ì§€ê¸ˆê¹Œì§€ ë†“ì€ ë°”ë‘‘ëŒì˜ ê°œìˆ˜
 
-int STARTFLAG = 0;                        // ¹ÙµÏ Áı Ã£´Â loop ¹İº¹ Á¦¾î
-int ret_count1 = 0;                       // player1 µÎ ¼ö ¹«¸£±â
-int ret_count2 = 0;                       // player2 µÎ ¼ö ¹«¸£±â
+int STARTFLAG = 0;                        // ë°”ë‘‘ ì§‘ ì°¾ëŠ” loop ë°˜ë³µ ì œì–´
+int ret_count1 = 0;                       // player1 ë‘ ìˆ˜ ë¬´ë¥´ê¸°
+int ret_count2 = 0;                       // player2 ë‘ ìˆ˜ ë¬´ë¥´ê¸°
 int play_count = 0;
 
 
-void ClearStones();                     // ¹ÙµÏµ¹ ¹è¿­ ÃÊ±âÈ­ ÇÔ¼ö
-void ClearMap();                        // ¹ÙµÏÆÇ ÃÊ±âÈ­ ÇÔ¼ö
+void ClearStones();                     // ë°”ë‘‘ëŒ ë°°ì—´ ì´ˆê¸°í™” í•¨ìˆ˜
+void ClearMap();                        // ë°”ë‘‘íŒ ì´ˆê¸°í™” í•¨ìˆ˜
 
-void InputSelect(int player);                  // ¹æÇâ ¹× ¹ÙµÏµ¹ Âø¼ö
-void ShowCheckerBoard();                        // ¹ÙµÏÆÇ »óÈ² Ãâ·Â ÇÔ¼ö
-void ShowCursorPos(int x, int y);                  // ¹ÙµÏÆÇ ¹è¿­¿¡ º¸ÀÌ´Â ÇöÀç À§Ä¡¸¦ Ä¿¼­·Î º¸¿© ÁÖ´Â ÇÔ¼ö
+void InputSelect(int player);                  // ë°©í–¥ ë° ë°”ë‘‘ëŒ ì°©ìˆ˜
+void ShowCheckerBoard();                        // ë°”ë‘‘íŒ ìƒí™© ì¶œë ¥ í•¨ìˆ˜
+void ShowCursorPos(int x, int y);                  // ë°”ë‘‘íŒ ë°°ì—´ì— ë³´ì´ëŠ” í˜„ì¬ ìœ„ì¹˜ë¥¼ ì»¤ì„œë¡œ ë³´ì—¬ ì£¼ëŠ” í•¨ìˆ˜
 
-int DeleteCheck();                           // ³õÀº ¹ÙµÏµ¹ ÁÖÀ§¿¡ ÁıÀÌ ÀÖ´ÂÁö ¿©ºÎ¸¦ count·Î ÃÖÁ¾ È®ÀÎÇÏ´Â ÇÔ¼ö
-int DecisionFlag(int x, int y);               // ³õ´Â À§Ä¡°¡ À¯È¿ÇÑÁö ÆÇ´ÜÇÒ ¶§ »ç¿ë
-void RemoveStone(int x, int y, int player_number);   // ¹ÙµÏµ¹ÀÌ ÀâÇûÀ»¶§ Ã³¸®
-void CheckMyStonePos(int x, int y, int player_number);   // ¹ÙµÏµ¹À» ³õÀ» °æ¿ì ÇöÀç À§Ä¡°¡ »ó´ë¹æ µ¹À» Æ÷À§ÇÏ´Â À§Ä¡ÀÎÁö È®ÀÎ
-int CheckPlayerHousePos(int x, int y, int player_number);   // ÇöÀç µÎ´Â À§Ä¡°¡ »ó´ë¹æ ÁıÀÎÁö È®ÀÎ
+int DeleteCheck();                           // ë†“ì€ ë°”ë‘‘ëŒ ì£¼ìœ„ì— ì§‘ì´ ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ countë¡œ ìµœì¢… í™•ì¸í•˜ëŠ” í•¨ìˆ˜
+int DecisionFlag(int x, int y);               // ë†“ëŠ” ìœ„ì¹˜ê°€ ìœ íš¨í•œì§€ íŒë‹¨í•  ë•Œ ì‚¬ìš©
+void RemoveStone(int x, int y, int player_number);   // ë°”ë‘‘ëŒì´ ì¡í˜”ì„ë•Œ ì²˜ë¦¬
+void CheckMyStonePos(int x, int y, int player_number);   // ë°”ë‘‘ëŒì„ ë†“ì„ ê²½ìš° í˜„ì¬ ìœ„ì¹˜ê°€ ìƒëŒ€ë°© ëŒì„ í¬ìœ„í•˜ëŠ” ìœ„ì¹˜ì¸ì§€ í™•ì¸
+int CheckPlayerHousePos(int x, int y, int player_number);   // í˜„ì¬ ë‘ëŠ” ìœ„ì¹˜ê°€ ìƒëŒ€ë°© ì§‘ì¸ì§€ í™•ì¸
 int FindHouse(int x, int y, int player_number);
 int Find(int player_number);
-int GameStatus();                           // ÇöÀç °ÔÀÓ »óÅÂ¸¦ È®ÀÎ, °ÔÀÓÀ» °è¼Ó ÁøÇàÇÒÁö¸¦ ÆÇ´Ü
+int GameStatus();                           // í˜„ì¬ ê²Œì„ ìƒíƒœë¥¼ í™•ì¸, ê²Œì„ì„ ê³„ì† ì§„í–‰í• ì§€ë¥¼ íŒë‹¨
 
 
-void ClearStones() {               // ¹ÙµÏµ¹ °ª ¹è¿­ ÃÊ±âÈ­ ÇÔ¼ö
+void ClearStones() {               // ë°”ë‘‘ëŒ ê°’ ë°°ì—´ ì´ˆê¸°í™” í•¨ìˆ˜
 
     int i, j;
 
     for (i = 0; i < MAPSIZE; i++) {
         for (j = 0; j < MAPSIZE; j++) {
-            checkHouse[i][j] = CLEAR;      // checkHouse ÃÊ±âÈ­
+            checkHouse[i][j] = CLEAR;      // checkHouse ì´ˆê¸°í™”
         }
     }
 }
 
-void ClearMap() {      // ¹ÙµÏÆÇ ÃÊ±âÈ­ ÇÔ¼ö
+void ClearMap() {      // ë°”ë‘‘íŒ ì´ˆê¸°í™” í•¨ìˆ˜
 
     int x, y;
 
@@ -87,10 +84,10 @@ void ClearMap() {      // ¹ÙµÏÆÇ ÃÊ±âÈ­ ÇÔ¼ö
 }
 
 int DecisionFlag(int x, int y) {
-    if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)   // ¸ÊÀÇ À§Ä¡¿¡ ¹ş¾î³­ °æ¿ìÀÇ Flag ÆÇ´Ü
+    if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)   // ë§µì˜ ìœ„ì¹˜ì— ë²—ì–´ë‚œ ê²½ìš°ì˜ Flag íŒë‹¨
         return TRUE;
 
-    if (checkHouse[y][x] == OK)               // checkHouse°¡ 1ÀÎ °æ¿ì
+    if (checkHouse[y][x] == OK)               // checkHouseê°€ 1ì¸ ê²½ìš°
         return TRUE;
 
     return FALSE;
@@ -100,28 +97,28 @@ int DeleteCheck(int count) {
     return count == OK_COUNT;
 }
 
-int CheckPlayerHousePos(int x, int y, int player_number) { // ³»°¡ µÎ´Â °÷ÀÌ »ó´ë¹æÀÇ ÁıÀÎÁö ¿©ºÎ¸¦ ³× ¹æÇâ ÆÇ´Ü
+int CheckPlayerHousePos(int x, int y, int player_number) { // ë‚´ê°€ ë‘ëŠ” ê³³ì´ ìƒëŒ€ë°©ì˜ ì§‘ì¸ì§€ ì—¬ë¶€ë¥¼ ë„¤ ë°©í–¥ íŒë‹¨
 
     int result;
     int count;
 
-    if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)    // ¸ÊÀÇ À§Ä¡¸¦ ¹ş¾î³­ °÷¿¡ ³õÀ¸·Á ÇÒ ¶§
+    if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)    // ë§µì˜ ìœ„ì¹˜ë¥¼ ë²—ì–´ë‚œ ê³³ì— ë†“ìœ¼ë ¤ í•  ë•Œ
 
         return OK;
 
-    if (map[y][x] == player_number)            // ÀÌ¹Ì ÀÚ½ÅÀÌ ³õÀº À§Ä¡¿¡ ³õÀ¸·Á°í ÇÒ ¶§
+    if (map[y][x] == player_number)            // ì´ë¯¸ ìì‹ ì´ ë†“ì€ ìœ„ì¹˜ì— ë†“ìœ¼ë ¤ê³  í•  ë•Œ
         return OK;
 
-    if (map[y][x] == NONE)                     // ¹ÙµÏµ¹ÀÌ ¾ø´Â °÷¿¡ ³õÀ¸·Á°í ÇÏ´Â °æ¿ì
+    if (map[y][x] == NONE)                     // ë°”ë‘‘ëŒì´ ì—†ëŠ” ê³³ì— ë†“ìœ¼ë ¤ê³  í•˜ëŠ” ê²½ìš°
         return NO;
 
     count = 0;
     result = NO;
     checkHouse[y][x] = OK;
 
-    if (DecisionFlag(x, y - 1) == FALSE) {     // y - 1ÀÌ ÇöÀç µ¹ÀÌ ÀÖ´Â°¡
+    if (DecisionFlag(x, y - 1) == FALSE) {     // y - 1ì´ í˜„ì¬ ëŒì´ ìˆëŠ”ê°€
 
-        if (CheckPlayerHousePos(x, y - 1, player_number)) {   // ¾î¶² ÇÃ·¹ÀÌ¾îÀÇ µ¹·Î ½×¿© ÀÖ´ÂÁö È®ÀÎ --> Àç±Í
+        if (CheckPlayerHousePos(x, y - 1, player_number)) {   // ì–´ë–¤ í”Œë ˆì´ì–´ì˜ ëŒë¡œ ìŒ“ì—¬ ìˆëŠ”ì§€ í™•ì¸ --> ì¬ê·€
 
             count = count + 1;
 
@@ -129,9 +126,9 @@ int CheckPlayerHousePos(int x, int y, int player_number) { // ³»°¡ µÎ´Â °÷ÀÌ »ó´
     }
     else { count = count + 1; }
 
-    if (DecisionFlag(x - 1, y) == FALSE) {          // x - 1ÀÌ ÇöÀç µ¹ÀÌ ÀÖ´Â°¡
+    if (DecisionFlag(x - 1, y) == FALSE) {          // x - 1ì´ í˜„ì¬ ëŒì´ ìˆëŠ”ê°€
 
-        if (CheckPlayerHousePos(x - 1, y, player_number)) {     // ¾î¶² ÇÃ·¹ÀÌ¾îÀÇ µ¹·Î ½×¿© ÀÖ´ÂÁö È®ÀÎ --> Àç±Í
+        if (CheckPlayerHousePos(x - 1, y, player_number)) {     // ì–´ë–¤ í”Œë ˆì´ì–´ì˜ ëŒë¡œ ìŒ“ì—¬ ìˆëŠ”ì§€ í™•ì¸ --> ì¬ê·€
             count = count + 1;
         }
     }
@@ -148,7 +145,7 @@ int CheckPlayerHousePos(int x, int y, int player_number) { // ³»°¡ µÎ´Â °÷ÀÌ »ó´
     }
     else { count = count + 1; }
 
-    if (count == OK_COUNT) {            // ³õÀº À§Ä¡°¡ Áı¿¡ µÑ·¯ ½×¿©ÀÖÀ½ or ÁıÀÌ µÇ´Â °æ¿ì ÆÇ´Ü
+    if (count == OK_COUNT) {            // ë†“ì€ ìœ„ì¹˜ê°€ ì§‘ì— ë‘˜ëŸ¬ ìŒ“ì—¬ìˆìŒ or ì§‘ì´ ë˜ëŠ” ê²½ìš° íŒë‹¨
         result = OK;
     }
 
@@ -161,25 +158,25 @@ int FindHouse(int x, int y, int player_number) {
     int result;
     int count;
 
-    // ¸ÊÀÇ À§Ä¡¸¦ ¹ş¾î³­ °÷¿¡ ³õÀ¸·Á ÇÒ ¶§
+    // ë§µì˜ ìœ„ì¹˜ë¥¼ ë²—ì–´ë‚œ ê³³ì— ë†“ìœ¼ë ¤ í•  ë•Œ
     if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)  return OK;
 
-    if (map[y][x] == player_number)  return OK;          // ÀÌ¹Ì ÀÚ½ÅÀÌ ³õÀº À§Ä¡¿¡ ³õÀ¸·Á°í ÇÒ ¶§
+    if (map[y][x] == player_number)  return OK;          // ì´ë¯¸ ìì‹ ì´ ë†“ì€ ìœ„ì¹˜ì— ë†“ìœ¼ë ¤ê³  í•  ë•Œ
 
     count = 0;
     result = NO;
     checkHouse[y][x] = OK;
 
-    if (DecisionFlag(x, y - 1) == FALSE) {           // y - 1ÀÌ ÇöÀç µ¹ÀÌ ÀÖ´Â°¡
-        if (CheckPlayerHousePos(x, y - 1, player_number)) {      // ¾î¶² ÇÃ·¹ÀÌ¾îÀÇ µ¹·Î ½×¿© ÀÖ´ÂÁö È®ÀÎ --> Àç±Í
+    if (DecisionFlag(x, y - 1) == FALSE) {           // y - 1ì´ í˜„ì¬ ëŒì´ ìˆëŠ”ê°€
+        if (CheckPlayerHousePos(x, y - 1, player_number)) {      // ì–´ë–¤ í”Œë ˆì´ì–´ì˜ ëŒë¡œ ìŒ“ì—¬ ìˆëŠ”ì§€ í™•ì¸ --> ì¬ê·€
             count = count + 1;
         }
     }
     else { count = count + 1; }
 
-    if (DecisionFlag(x - 1, y) == FALSE) {           // x - 1ÀÌ ÇöÀç µ¹ÀÌ ÀÖ´Â°¡
+    if (DecisionFlag(x - 1, y) == FALSE) {           // x - 1ì´ í˜„ì¬ ëŒì´ ìˆëŠ”ê°€
 
-        if (CheckPlayerHousePos(x - 1, y, player_number)) {      // ¾î¶² ÇÃ·¹ÀÌ¾îÀÇ µ¹·Á ½×¿© ÀÖ´ÂÁö È®ÀÎ --> Àç±Í
+        if (CheckPlayerHousePos(x - 1, y, player_number)) {      // ì–´ë–¤ í”Œë ˆì´ì–´ì˜ ëŒë ¤ ìŒ“ì—¬ ìˆëŠ”ì§€ í™•ì¸ --> ì¬ê·€
             count = count + 1;
         }
     }
@@ -197,13 +194,13 @@ int FindHouse(int x, int y, int player_number) {
     }
     else { count = count + 1; }
 
-    if (count == OK_COUNT) {           // ³õÀº À§Ä¡°¡ Áı¿¡ µÑ·¯ ½×¿©ÀÖ°Å³ª, ÁıÀÌ µÇ´Â °æ¿ì ÆÇ´Ü
+    if (count == OK_COUNT) {           // ë†“ì€ ìœ„ì¹˜ê°€ ì§‘ì— ë‘˜ëŸ¬ ìŒ“ì—¬ìˆê±°ë‚˜, ì§‘ì´ ë˜ëŠ” ê²½ìš° íŒë‹¨
         result = OK;
     }
     return result;
 }
 
-void RemoveStone(int x, int y, int player_number) // ÁıÀÌ »ı°Ü Á¡¼ö¸¦ ³»°í µ¹À» Áö¿ï ¶§ --> Àç±Í·Î µ¿ÀÛ
+void RemoveStone(int x, int y, int player_number) // ì§‘ì´ ìƒê²¨ ì ìˆ˜ë¥¼ ë‚´ê³  ëŒì„ ì§€ìš¸ ë•Œ --> ì¬ê·€ë¡œ ë™ì‘
 {
     if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE) return;
 
@@ -226,7 +223,7 @@ void RemoveStone(int x, int y, int player_number) // ÁıÀÌ »ı°Ü Á¡¼ö¸¦ ³»°í µ¹À» 
     if (y - 1 >= 0) RemoveStone(x, y - 1, player_number);
 }
 
-void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂÇ¥ ÀÌµ¿
+void InputSelect(int player) {            // í˜„ì¬ ë°”ë‘‘ì„ ë‘ê³  ìˆëŠ” í”Œë ˆì´ì–´ì˜ ì¢Œí‘œ ì´ë™
     char check;
     int player_number;
     int loop = START;
@@ -240,35 +237,35 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
 
         switch (check) {
 
-        case UP:      // À§ÂÊ ÀÌµ¿
+        case UP:      // ìœ„ìª½ ì´ë™
 
             y = y - 1;
             if (y < 0) y = y + 1;
             ShowCursorPos(x, y);
             break;
 
-        case DOWN:      // ¾Æ·¡ÂÊ ÀÌµ¿
+        case DOWN:      // ì•„ë˜ìª½ ì´ë™
 
             y = y + 1;
             if (y >= MAPSIZE) y = y - 1;
             ShowCursorPos(x, y);
             break;
 
-        case RIGHT:      // ¿À¸¥ÂÊ ÀÌµ¿
+        case RIGHT:      // ì˜¤ë¥¸ìª½ ì´ë™
 
             x = x + 1;
             if (x >= MAPSIZE) x = x - 1;
             ShowCursorPos(x, y);
             break;
 
-        case LEFT:      // ¿ŞÂÊ ÀÌµ¿
+        case LEFT:      // ì™¼ìª½ ì´ë™
 
             x = x - 1;
             if (x < 0) x = x + 1;
             ShowCursorPos(x, y);
             break;
 
-        case RETURN:   // ¼ö ¹«¸£±â
+        case RETURN:   // ìˆ˜ ë¬´ë¥´ê¸°
 
             if (player_number == player1) {
 
@@ -289,10 +286,10 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
             ShowCheckerBoard();
 
             if (player_number == player1) {
-                printf("\n\n\n\n\n\n¡Û(Èæµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+                printf("\n\n\n\n\n\nâ—‹(í‘ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
             }
             else {
-                printf("\n\n\n\n\n\n¡Ü(¹éµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+                printf("\n\n\n\n\n\nâ—(ë°±ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
             }
 
             ShowCursorPos(x, y);
@@ -309,13 +306,13 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
             if (player == player1) {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n¡Û(Èæµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+                printf("\n\n\n\n\n\nâ—‹(í‘ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
 
             }
             else {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n¡Ü(¹éµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+                printf("\n\n\n\n\n\nâ—(ë°±ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
 
             }
 
@@ -324,9 +321,9 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
             InputSelect(player_number);
             loop = END;
 
-        case ENTER:      // ¹ÙµÏµ¹À» Âø¼öÇÒ ¶§
+        case ENTER:      // ë°”ë‘‘ëŒì„ ì°©ìˆ˜í•  ë•Œ
 
-            if (play_count == 0 && !(y == 0 || y == 7 || x == 0 || x == 7) && player == player1) {  // °¡ÀåÀÚ¸®¿¡¸¸ ³õÀ» ¼ö ÀÖ°Ô Ã³¸®
+            if (play_count == 0 && !(y == 0 || y == 7 || x == 0 || x == 7) && player == player1) {  // ê°€ì¥ìë¦¬ì—ë§Œ ë†“ì„ ìˆ˜ ìˆê²Œ ì²˜ë¦¬
                 STARTFLAG = 1;
                 loop = END;
                 break;
@@ -339,7 +336,7 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
             CheckMyStonePos(x, y, player);
             ClearStones();
 
-            if (CheckPlayerHousePos(x, y, player_number) == YES) // ÇØ´ç À§Ä¡¿¡ ÁıÀÌ »ı°åÀ» °æ¿ì, µÑ ¼ö ¾øÀ¸¸é YES Ãâ·Â --> µÎ¾ú´ø °ÍÀ» ¹«È¿È­
+            if (CheckPlayerHousePos(x, y, player_number) == YES) // í•´ë‹¹ ìœ„ì¹˜ì— ì§‘ì´ ìƒê²¼ì„ ê²½ìš°, ë‘˜ ìˆ˜ ì—†ìœ¼ë©´ YES ì¶œë ¥ --> ë‘ì—ˆë˜ ê²ƒì„ ë¬´íš¨í™”
                 map[y][x] = CLEAR;
             else
                 loop = END;
@@ -349,10 +346,10 @@ void InputSelect(int player) {            // ÇöÀç ¹ÙµÏÀ» µÎ°í ÀÖ´Â ÇÃ·¹ÀÌ¾îÀÇ ÁÂ
     }
 }
 
-// ¹ÙµÏµ¹À» Âø¼öÇßÀ» °æ¿ì ±× ¹ÙµÏµ¹ÀÌ »ó´ë¹æ µ¹À» ¸ğµÎ Æ÷À§ÇÏ°í ÁıÀ» ¸¸µé °æ¿ì¸¦ °è¼ÓÇØ¼­ °Ë»çÇÏ±â À§ÇÑ Àç±ÍÀû ¾Ë°í¸®Áò
+// ë°”ë‘‘ëŒì„ ì°©ìˆ˜í–ˆì„ ê²½ìš° ê·¸ ë°”ë‘‘ëŒì´ ìƒëŒ€ë°© ëŒì„ ëª¨ë‘ í¬ìœ„í•˜ê³  ì§‘ì„ ë§Œë“¤ ê²½ìš°ë¥¼ ê³„ì†í•´ì„œ ê²€ì‚¬í•˜ê¸° ìœ„í•œ ì¬ê·€ì  ì•Œê³ ë¦¬ì¦˜
 void CheckMyStonePos(int x, int y, int player_number) {
 
-    ClearStones();      // µÎ¾ú´ø ¹ÙµÏÀ» ÃÊ±âÈ­
+    ClearStones();      // ë‘ì—ˆë˜ ë°”ë‘‘ì„ ì´ˆê¸°í™”
     if (CheckPlayerHousePos(x + 1, y, player_number) == YES) RemoveStone(x + 1, y, player_number);
 
     ClearStones();
@@ -366,27 +363,27 @@ void CheckMyStonePos(int x, int y, int player_number) {
 }
 
 
-int GameStatus() {      // ÇöÀç °ÔÀÓÀÇ ÁøÇà »óÅÂ¸¦ ¾Ë·ÁÁÖ´Â ÇÔ¼ö
+int GameStatus() {      // í˜„ì¬ ê²Œì„ì˜ ì§„í–‰ ìƒíƒœë¥¼ ì•Œë ¤ì£¼ëŠ” í•¨ìˆ˜
 
     int i, j;
     int player1_do = 0;
     int player2_do = 0;
-    totalCount = 0;   // µ¹ÀÇ ÃÑ ¼ö ÀúÀå
+    totalCount = 0;   // ëŒì˜ ì´ ìˆ˜ ì €ì¥
 
     for (i = 0; i < MAPSIZE; i++)
         for (j = 0; j < MAPSIZE; j++)
             if (map[i][j] != CLEAR)
-                totalCount++;      // µÑ ¶§¸¶´Ù µ¹ÀÇ ¼ö¸¦ 1¾¿ Áõ°¡
+                totalCount++;      // ë‘˜ ë•Œë§ˆë‹¤ ëŒì˜ ìˆ˜ë¥¼ 1ì”© ì¦ê°€
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n¹ÙµÏµ¹À» µĞ ÃÑ °³¼ö: %d\n1¹ø ÇÃ·¹ÀÌ¾î : %d\n2¹ø ÇÃ·¹ÀÌ¾î : %d\n\nµ¹À» ¹«¸¥ È½¼ö(ÃÖ´ë 2È¸±îÁö °¡´ÉÇÕ´Ï´Ù)\n1¹ø ÇÃ·¹ÀÌ¾î : %d\n2¹ø ÇÃ·¹ÀÌ¾î : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // µ¹ÀÇ ÃÑ °³¼ö, ÇÃ·¹ÀÌ¾î1ÀÇ µ¹ ¼ö, ÇÃ·¹ÀÌ¾î2ÀÇ µ¹ ¼ö Ãâ·Â
+    printf("\n\n\n\n\në°”ë‘‘ëŒì„ ë‘” ì´ ê°œìˆ˜: %d\n1ë²ˆ í”Œë ˆì´ì–´ : %d\n2ë²ˆ í”Œë ˆì´ì–´ : %d\n\nëŒì„ ë¬´ë¥¸ íšŸìˆ˜(ìµœëŒ€ 2íšŒê¹Œì§€ ê°€ëŠ¥í•©ë‹ˆë‹¤)\n1ë²ˆ í”Œë ˆì´ì–´ : %d\n2ë²ˆ í”Œë ˆì´ì–´ : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // ëŒì˜ ì´ ê°œìˆ˜, í”Œë ˆì´ì–´1ì˜ ëŒ ìˆ˜, í”Œë ˆì´ì–´2ì˜ ëŒ ìˆ˜ ì¶œë ¥
 
-    // 2¹øÀ» ´Ù ¹°·¶À» ¶§
+    // 2ë²ˆì„ ë‹¤ ë¬¼ë €ì„ ë•Œ
     if (ret_count1 >= 2)
-        printf("¡Û(Èæµ¹)Àº ´õ ÀÌ»ó ¹«¸¦ ¼ö ¾ø½À´Ï´Ù.\n");
+        printf("â—‹(í‘ëŒ)ì€ ë” ì´ìƒ ë¬´ë¥¼ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
     if (ret_count2 >= 2)
-        printf("¡Ü(¹éµ¹)Àº ´õ ÀÌ»ó ¹«¸¦ ¼ö ¾ø½À´Ï´Ù.\n");
+        printf("â—(ë°±ëŒ)ì€ ë” ì´ìƒ ë¬´ë¥¼ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
 
     if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE) {
         player1_do = Find(player1);
@@ -395,20 +392,20 @@ int GameStatus() {      // ÇöÀç °ÔÀÓÀÇ ÁøÇà »óÅÂ¸¦ ¾Ë·ÁÁÖ´Â ÇÔ¼ö
         ShowCursorPos(displayX, displayY);
 
         if (countReset1 < countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nÃàÇÏÇÕ´Ï´Ù! \n¡Ü(¹éµ¹)ÀÌ ½Â¸®ÇÏ¿´½À´Ï´Ù!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nì¶•í•˜í•©ë‹ˆë‹¤! \nâ—(ë°±ëŒ)ì´ ìŠ¹ë¦¬í•˜ì˜€ìŠµë‹ˆë‹¤!!\n");
         else if (countReset1 > countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nÃàÇÏÇÕ´Ï´Ù! \n¡Û(Èæµ¹)ÀÌ ½Â¸®ÇÏ¿´½À´Ï´Ù!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nì¶•í•˜í•©ë‹ˆë‹¤! \nâ—‹(í‘ëŒ)ì´ ìŠ¹ë¦¬í•˜ì˜€ìŠµë‹ˆë‹¤!!\n");
         else
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n¹«½ÂºÎ³×¿ä!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\në¬´ìŠ¹ë¶€ë„¤ìš”!\n");
 
-        printf("1¹ø ÇÃ·¹ÀÌ¾îÀÇ Áı °³¼ö : %d | 2¹ø ÇÃ·¹ÀÌ¾îÀÇ Áı °³¼ö %d \n", player1_do + 2, player2_do);
+        printf("1ë²ˆ í”Œë ˆì´ì–´ì˜ ì§‘ ê°œìˆ˜ : %d | 2ë²ˆ í”Œë ˆì´ì–´ì˜ ì§‘ ê°œìˆ˜ %d \n", player1_do + 2, player2_do);
         return 1;
     }
     return 0;
 
 }
 
-void ShowCheckerBoard() {                  // È­¸é Ãâ·Â
+void ShowCheckerBoard() {                  // í™”ë©´ ì¶œë ¥
 
     int x, y, n;
     char calculate[3];
@@ -417,46 +414,28 @@ void ShowCheckerBoard() {                  // È­¸é Ãâ·Â
 
     for (y = 0; y < MAPSIZE; y++) {
         for (x = 0; x < MAPSIZE; x++) {
-            if (map[y][x] == player1) {     // ÇÃ·¹ÀÌ¾î1 - Èæµ¹
-                printf("¡Û");
+            if (map[y][x] == player1) {     // í”Œë ˆì´ì–´1 - í‘ëŒ
+                printf("â—‹");
             }
-            else if (map[y][x] == player2) {// ÇÃ·¹ÀÌ¾î2 - ¹éµ¹
-                printf("¡Ü");
+            else if (map[y][x] == player2) {// í”Œë ˆì´ì–´2 - ë°±ëŒ
+                printf("â—");
             }
-            else if (map[y][x] == NONE) { // ¹ÙµÏÆÇ Ãâ·Â
+            else if (map[y][x] == NONE) { // ë°”ë‘‘íŒ ì¶œë ¥
                 n = (x + 5) / 6 + (y + 5) / 6 * 3;
                 calculate[0] = mapGrid[n * 2];
                 calculate[1] = mapGrid[n * 2 + 1];
-                calculate[2] = 0;               // ¹ÙµÏÆÇÀ» 8x8 ·Î ¸¸µé±â À§ÇÑ °è»ê °úÁ¤
+                calculate[2] = 0;               // ë°”ë‘‘íŒì„ 8x8 ë¡œ ë§Œë“¤ê¸° ìœ„í•œ ê³„ì‚° ê³¼ì •
 
-                printf("%s ", calculate);         // ¹ÙµÏÆÇ Ãâ·Â
+                printf("%s ", calculate);         // ë°”ë‘‘íŒ ì¶œë ¥
             }
         }
         printf("\n");
     }
 
     ShowCursorPos(displayX, displayLineY);
-    printf("¹ÙµÏÀ» ½ÃÀÛÇÕ´Ï´Ù!\n");
-    printf("Å°º¸µåÀÇ ¹æÇâÅ°·Î À§Ä¡ ÀÌµ¿ÀÌ °¡´ÉÇÕ´Ï´Ù.\n\n");
-    printf("*********** »ç¿ë ¹æ¹ı ***********\n¹ÙµÏµ¹ Âø¼ö : spacebar Å°¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!\n¼ö ¹«¸£±â : backspace Å°¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!\n");
-}
-
-int Find(int player_number) {
-
-    int i, j;
-    int temp = 0;
-    int count = 0;
-
-    for (i = 0; i < MAPSIZE; i++) {
-        for (j = 0; j < MAPSIZE; j++) {
-            if (map[i][j] == 0) {
-                temp = StoneFind(i, j, player_number);
-                count += temp;
-            }
-        }
-    }
-
-    return count;
+    printf("ë°”ë‘‘ì„ ì‹œì‘í•©ë‹ˆë‹¤!\n");
+    printf("í‚¤ë³´ë“œì˜ ë°©í–¥í‚¤ë¡œ ìœ„ì¹˜ ì´ë™ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.\n\n");
+    printf("*********** ì‚¬ìš© ë°©ë²• ***********\në°”ë‘‘ëŒ ì°©ìˆ˜ : spacebar í‚¤ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!\nìˆ˜ ë¬´ë¥´ê¸° : backspace í‚¤ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!\n");
 }
 
 int StoneFind(int x, int y, int player_number)
@@ -481,6 +460,24 @@ int StoneFind(int x, int y, int player_number)
     return player_domain_count;
 }
 
+int Find(int player_number) {
+
+    int i, j;
+    int temp = 0;
+    int count = 0;
+
+    for (i = 0; i < MAPSIZE; i++) {
+        for (j = 0; j < MAPSIZE; j++) {
+            if (map[i][j] == 0) {
+                temp = StoneFind(i, j, player_number);
+                count += temp;
+            }
+        }
+    }
+
+    return count;
+}
+
 void ShowCursorPos(int x, int y) {
     COORD Pos = { x * 2 , y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
@@ -500,7 +497,7 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (STARTFLAG == 1) {
-            printf("\n\n\n\nÃ¹ ¼ö´Â °¡ÀåÀÚ¸®¿¡¸¸ ³õÀ» ¼ö ÀÖ½À´Ï´Ù.");
+            printf("\n\n\n\nì²« ìˆ˜ëŠ” ê°€ì¥ìë¦¬ì—ë§Œ ë†“ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
             STARTFLAG = 0;
             player = player1;
         }
@@ -508,10 +505,10 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (player == player1) {
-            printf("\n\n\n\n\n\n¡Û(Èæµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+            printf("\n\n\n\n\n\nâ—‹(í‘ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
         }
         else {
-            printf("\n\n\n\n\n\n¡Ü(¹éµ¹) ÇÃ·¹ÀÌ¾î°¡ µÑ Â÷·ÊÀÔ´Ï´Ù.");
+            printf("\n\n\n\n\n\nâ—(ë°±ëŒ) í”Œë ˆì´ì–´ê°€ ë‘˜ ì°¨ë¡€ì…ë‹ˆë‹¤.");
         }
 
 
