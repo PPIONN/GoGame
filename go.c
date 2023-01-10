@@ -14,7 +14,7 @@
 
 #define CLEAR 0         // 배열 초기화
 #define NONE 0
-#define MAPSIZE 8      // 바둑판 크기 지정 (8*8)
+#define MAPSIZE 19      // 바둑판 크기 지정 (8*8) // 수정 바둑판 크기 지정 (19*19)
 #define START 1
 #define END 0
 #define NO 0
@@ -408,7 +408,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 void ShowCheckerBoard() {                  // 화면 출력
 
     int x, y, n;
-    char calculate[4];
+    char calculate[3];
     system("cls");
 
 
@@ -433,9 +433,7 @@ void ShowCheckerBoard() {                  // 화면 출력
     }
 
     ShowCursorPos(displayX, displayLineY);
-    printf("바둑을 시작합니다!\n");
-    printf("키보드의 방향키로 위치 이동이 가능합니다.\n\n");
-    printf("*********** 사용 방법 ***********\n바둑돌 착수 : spacebar 키를 입력해주세요!\n수 무르기 : backspace 키를 입력해주세요!\n");
+    
 }
 
 int StoneFind(int x, int y, int player_number)
