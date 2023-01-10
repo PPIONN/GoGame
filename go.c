@@ -1,4 +1,4 @@
-//8*8 그리드 바둑
+
 
 #include <stdio.h>
 #include <windows.h>
