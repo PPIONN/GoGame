@@ -408,7 +408,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 void ShowCheckerBoard() {                  // 화면 출력
 
     int x, y, n;
-    char calculate[3];
+    char calculate[4];
     system("cls");
 
 
@@ -423,7 +423,7 @@ void ShowCheckerBoard() {                  // 화면 출력
             else if (map[y][x] == NONE) { // 바둑판 출력
                 n = (x + 5) / 6 + (y + 5) / 6 * 3;
                 calculate[0] = mapGrid[n * 2];
-                calculate[1] = mapGrid[n * 2 + 1];
+                calculate[1] = mapGrid[n * 2+1];
                 calculate[2] = 0;               // 바둑판을 8x8 로 만들기 위한 계산 과정
 
                 printf("%s ", calculate);         // 바둑판 출력
