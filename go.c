@@ -14,7 +14,7 @@
 
 #define CLEAR 0         // 배열 초기화
 #define NONE 0
-#define MAPSIZE 14      // 바둑판 크기 지정 (8*8) // 수정 바둑판 크기 지정 (19*19)
+#define MAPSIZE 19      // 바둑판 크기 지정 (8*8) // 수정 바둑판 크기 지정 (19*19)
 #define START 1
 #define END 0
 #define NO 0
@@ -285,12 +285,12 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             play_count--;
             ShowCheckerBoard();
 
-            if (player_number == player1) {
-                printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
-            }
-            else {
-                printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
-            }
+            //if (player_number == player1) {
+            //    printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            //}
+            //else {
+            //    printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            //}
 
             ShowCursorPos(x, y);
             InputSelect(player_number);
@@ -306,13 +306,13 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             if (player == player1) {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            //    printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
 
             }
             else {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            //    printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
 
             }
 
@@ -421,7 +421,7 @@ void ShowCheckerBoard() {                  // 화면 출력
                 printf("●");
             }
             else if (map[y][x] == NONE) { // 바둑판 출력
-                n = (x + 11) / 12 + (y + 11) / 12 * 3;
+                n = (x + 16) / 17 + (y + 16) / 17 * 3;
                 calculate[0] = mapGrid[n * 2];
                 calculate[1] = mapGrid[n * 2+1];
                 calculate[2] = 0;               // 바둑판을 8x8 로 만들기 위한 계산 과정
@@ -503,10 +503,10 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (player == player1) {
-            printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
         }
         else {
-            printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
         }
 
 
