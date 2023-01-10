@@ -285,12 +285,12 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             play_count--;
             ShowCheckerBoard();
 
-            //if (player_number == player1) {
-            //    printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
-            //}
-            //else {
-            //    printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
-            //}
+            if (player_number == player1) {
+                printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            }
+            else {
+                printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            }
 
             ShowCursorPos(x, y);
             InputSelect(player_number);
@@ -306,13 +306,13 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             if (player == player1) {
 
                 ShowCursorPos(displayX, displayY);
-            //    printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
 
             }
             else {
 
                 ShowCursorPos(displayX, displayY);
-            //    printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
 
             }
 
@@ -377,7 +377,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -392,11 +392,11 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
         ShowCursorPos(displayX, displayY);
 
         if (countReset1 < countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
         else if (countReset1 > countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
         else
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n무승부네요!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n무승부네요!\n");
 
         printf("1번 플레이어의 집 개수 : %d | 2번 플레이어의 집 개수 %d \n", player1_do + 2, player2_do);
         return 1;
@@ -495,7 +495,7 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (STARTFLAG == 1) {
-            printf("\n\n\n\n첫 수는 가장자리에만 놓을 수 있습니다.");
+            printf("\n\n\n\n\n\n\n첫 수는 가장자리에만 놓을 수 있습니다.");
             STARTFLAG = 0;
             player = player1;
         }
@@ -503,10 +503,10 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (player == player1) {
-            printf("\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
         }
         else {
-            printf("\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
         }
 
 
