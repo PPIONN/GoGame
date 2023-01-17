@@ -9,7 +9,7 @@
 #define DOWN 80         // 아래쪽 이동 (방향키로 이동)
 #define LEFT 75         // 왼쪽 이동 (방향키로 이동)
 #define RIGHT 77      // 오른쪽 이동 (방향키로 이동)
-#define SPACE 32      // 바둑돌 놓기 (엔터)
+#define SPACE 32      // 바둑돌 놓기 (스페이스) // 수정 원본 ENTER
 #define RETURN 8        // 바둑돌 무르기 (백스페이스)
 
 #define CLEAR 0         // 배열 초기화
@@ -324,7 +324,7 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
 
         case SPACE:      // 바둑돌을 착수할 때
 
-            if (play_count == 0 && !(y == 0 || y == 10 || x == 0 || x == 10) && player == player1) {  // 가장자리에만 놓을 수 있게 처리 // 수정 // 두번째 y == 7 x == y 이였음 10 으로 수정
+            if (play_count == 0 && !(y == 0 || y == 9 || x == 0 || x == 9)  && player == player1) {  // 가장자리에만 놓을 수 있게 처리 // 수정 // 두번째 y == 7 x == y 이였음 10 으로 수정
                 STARTFLAG = 1;
                 loop = END;
                 break;
@@ -434,9 +434,9 @@ void ShowCheckerBoard() {                  // 화면 출력
     }
 
     ShowCursorPos(displayX, displayLineY);
-    printf("\n\n\n\n\n\n\n\n\n\n\n바둑을 시작합니다!\n");
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n바둑을 시작합니다!\n");
     printf("키보드의 방향키로 위치 이동이 가능합니다.\n\n");
-    printf("*********** 사용 방법 ***********\n바둑돌 착수 : spacebar 키를 입력해주세요!\n수 무르기 : backspace 키를 입력해주세요!\n");
+    printf("\n\n*********** 사용 방법 ***********\n\n\n\n\n   바둑돌 착수 :   spacebar 키를 입력해주세요!\n   수 무르기 :   backspace 키를 입력해주세요!\n");
 }
 
 int StoneFind(int x, int y, int player_number)
