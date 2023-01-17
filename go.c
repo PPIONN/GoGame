@@ -161,7 +161,8 @@ int FindHouse(int x, int y, int player_number) {
     // 맵의 위치를 벗어난 곳에 놓으려 할 때
     if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)  return OK;
 
-    if (map[y][x] == player_number)  return OK;          // 이미 자신이 놓은 위치에 놓으려고 할 때
+    if (map[y][x] == player_number)  
+        return OK;          // 이미 자신이 놓은 위치에 놓으려고 할 때
 
     count = 0;
     result = NO;
