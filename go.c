@@ -368,8 +368,8 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     int i, j;
     int player1_do = 0;
-    int player2_do = 0;
-    int totalCount = 0;   // 돌의 총 수 저장
+    double player2_do = 6.5;
+    double totalCount = 0;   // 돌의 총 수 저장
 
     for (i = 0; i < MAPSIZE; i++)
         for (j = 0; j < MAPSIZE; j++)
@@ -429,14 +429,14 @@ void ShowCheckerBoard() {                  // 화면 출력
 
                 printf("%s ", calculate);         // 바둑판 출력
             }
-        }
+        } 
         printf("\n");
     }
 
     ShowCursorPos(displayX, displayLineY);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n바둑을 시작합니다!\n");
     printf("키보드의 방향키로 위치 이동이 가능합니다.\n\n");
-    printf("\n\n*********** 사용 방법 ***********\n\n\n\n\n   바둑돌 착수 :   spacebar 키를 입력해주세요!\n   수 무르기 :   backspace 키를 입력해주세요!\n");
+    printf("\n\n*********** 사용 방법 ***********\n\n\n\n\n바둑돌 착수 : spacebar 키를 입력해주세요!\n수 무르기 : backspace 키를 입력해주세요!\n");
 }
 
 int StoneFind(int x, int y, int player_number)
