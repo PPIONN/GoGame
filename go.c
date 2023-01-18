@@ -28,14 +28,14 @@
 #define FALSE 0
 #define OK_COUNT 4
 
-double map[MAPSIZE][MAPSIZE];                  // 출력용 Map
+int map[MAPSIZE][MAPSIZE];                  // 출력용 Map
 int checkHouse[MAPSIZE][MAPSIZE];           // 놓는 위치를 기준으로 집이 있는지 판단하기 위한 Map
 int x, y = 3;
 int displayX = 0, displayLineY = 10, displayY = 12;   // 커서 출력
 char mapGrid[] = "┌┬┐├┼┤└┴┘";            // 바둑판 그리기
 
-int countReset1 = 0;                     // for player 1) 집이 생겨 돌을 치울 때 지우기 위한 count 수
-int countReset2 = 0;                     // for player 2) 집이 생겨 돌을 치울 때 지우기 위한 count 수
+double countReset1 = 0;                     // for player 1) 집이 생겨 돌을 치울 때 지우기 위한 count 수
+double countReset2 = 0;                     // for player 2) 집이 생겨 돌을 치울 때 지우기 위한 count 수
 int count_return = 0;                     //두 번까지 무르기 확인하는 변수
 double totalCount = 0;                      // 지금까지 놓은 바둑돌의 개수
 
@@ -45,21 +45,22 @@ int ret_count2 = 0;                       // player2 두 수 무르기
 int play_count = 0;
 
 
-void ClearStones();                     // 바둑돌 배열 초기화 함수
-void ClearMap();                        // 바둑판 초기화 함수
+void ClearStones(); // 바둑돌 배열 초기화 함수
+void ClearMap(); // 바둑판 초기화 함수
 
-void InputSelect(int player);                  // 방향 및 바둑돌 착수
-void ShowCheckerBoard();                        // 바둑판 상황 출력 함수
-void ShowCursorPos(int x, int y);                  // 바둑판 배열에 보이는 현재 위치를 커서로 보여 주는 함수
+void InputSelect(int player); // 방향 및 바둑돌 착수
+void ShowCheckerBoard(); // 바둑판 상황 출력 함수
+void ShowCursorPos(int x, int y); // 바둑판 배열에 보이는 현재 위치를 커서로 보여 주는 함수
 
-int DeleteCheck();                           // 놓은 바둑돌 주위에 집이 있는지 여부를 count로 최종 확인하는 함수
-int DecisionFlag(int x, int y);               // 놓는 위치가 유효한지 판단할 때 사용
-void RemoveStone(int x, int y, int player_number);   // 바둑돌이 잡혔을때 처리
-void CheckMyStonePos(int x, int y, int player_number);   // 바둑돌을 놓을 경우 현재 위치가 상대방 돌을 포위하는 위치인지 확인
-int CheckPlayerHousePos(int x, int y, int player_number);   // 현재 두는 위치가 상대방 집인지 확인
-int FindHouse(int x, int y, int player_number);
-int Find(int player_number);
-int GameStatus();                           // 현재 게임 상태를 확인, 게임을 계속 진행할지를 판단
+int DeleteCheck(); // 놓은 바둑돌 주위에 집이 있는지 여부를 count로 최종 확인하는 함수
+int DecisionFlag(int x, int y); // 놓는 위치가 유효한지 판단할 때 사용
+void RemoveStone(int x, int y, int player_number); // 바둑돌이 잡혔을때 처리
+void CheckMyStonePos(int x, int y, int player_number); // 바둑돌을 놓을 경우 현재 위치가 상대방 돌을 포위하는 위치인지 확인
+int CheckPlayerHousePos(int x, int y, int player_number); // 현재 두는 위치가 상대방 집인지 확인
+int FindHouse(int x, int y, int player_number);  //바둑돌이 맵을 벗어나지 않았는지, 집에 둘러 쌓여진 위치는 아닌지 등등 확인하는 함수
+
+int Find(int player_number); // 플레이어 비교 함수
+int GameStatus(); // 현재 게임 상태를 확인, 게임을 계속 진행할지를 판단
 
 
 void ClearStones() {               // 바둑돌 값 배열 초기화 함수
@@ -379,7 +380,8 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %.f\n1번 플레이어 : %.f\n2번 플레이어 : %.1f\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2+6.5, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %.f\n1번 플레이어 : %.f\n2번 플레이어 : %.1f\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n",
+        totalCount, countReset1, countReset2+6.5, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -387,19 +389,19 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
     if (ret_count2 >= 2)
         printf("●(백돌)은 더 이상 무를 수 없습니다.\n");
 
-    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE +6.5 ) {
+    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE ) {
         player1_do = Find(player1);
         player2_do = Find(player2);
 
         ShowCursorPos(displayX, displayY);
 
         if (countReset1 < countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
         else if (countReset1 > countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
 
 
-        printf("1번 플레이어의 집 개수 : %d | 2번 플레이어의 집 개수 %d \n", player1_do + 2, player2_do);
+        printf("\n\n1번 플레이어의 집 개수 : %.f | 2번 플레이어의 집 개수 %.1f \n", player1_do + 2, player2_do);
         return 1;
     }
     return 0;
@@ -411,7 +413,6 @@ void ShowCheckerBoard() {                  // 화면 출력
     int x, y, n;
     char calculate[3];
     system("cls");
-
 
     for (y = 0; y < MAPSIZE; y++) {
         for (x = 0; x < MAPSIZE; x++) {
@@ -438,7 +439,7 @@ void ShowCheckerBoard() {                  // 화면 출력
 ShowCursorPos(displayX, displayLineY);
 printf("\n\n\n\n\n\n\n\n\n\n\n\n바둑을 시작합니다!\n");
 printf("키보드의 방향키로 위치 이동이 가능합니다.\n\n");
-printf("\n\n\n\n*********** 사용 방법 ***********\n\n\n\n\n   바둑돌 착수 :   spacebar 키를 입력해주세요!\n   수 무르기 :   backspace 키를 입력해주세요!\n");
+printf("\n\n\n\n\n\n\n\n\n   바둑돌 착수 :   spacebar 키를 입력해주세요!\n   수 무르기 :   backspace 키를 입력해주세요!\n");
 
 }
 
