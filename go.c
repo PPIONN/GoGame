@@ -1,6 +1,4 @@
-﻿
-
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -9,12 +7,12 @@
 #define DOWN 80         // 아래쪽 이동 (방향키로 이동)
 #define LEFT 75         // 왼쪽 이동 (방향키로 이동)
 #define RIGHT 77      // 오른쪽 이동 (방향키로 이동)
-#define SPACE 32      // 바둑돌 놓기 (스페이스) // 수정 원본 ENTER
+#define ENTER 32      // 바둑돌 놓기 (엔터)
 #define RETURN 8        // 바둑돌 무르기 (백스페이스)
 
 #define CLEAR 0         // 배열 초기화
 #define NONE 0
-#define MAPSIZE 19      // 바둑판 크기 지정 (8*8) // 수정 바둑판 크기 지정 (19*19)
+#define MAPSIZE 8      // 바둑판 크기 지정 (8*8)
 #define START 1
 #define END 0
 #define NO 0
@@ -106,7 +104,7 @@ int CheckPlayerHousePos(int x, int y, int player_number) { // 내가 두는 곳�
 
         return OK;
 
-    if (map[y][x] == player_number)            // 이미 자신이 놓은 위치에 놓으려고 할 때 
+    if (map[y][x] == player_number)            // 이미 자신이 놓은 위치에 놓으려고 할 때
         return OK;
 
     if (map[y][x] == NONE)                     // 바둑돌이 없는 곳에 놓으려고 하는 경우
@@ -161,8 +159,7 @@ int FindHouse(int x, int y, int player_number) {
     // 맵의 위치를 벗어난 곳에 놓으려 할 때
     if (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE)  return OK;
 
-    if (map[y][x] == player_number)  
-        return OK;          // 이미 자신이 놓은 위치에 놓으려고 할 때
+    if (map[y][x] == player_number)  return OK;          // 이미 자신이 놓은 위치에 놓으려고 할 때
 
     count = 0;
     result = NO;
@@ -287,10 +284,10 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             ShowCheckerBoard();
 
             if (player_number == player1) {
-                printf("\n\n\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
             }
             else {
-                printf("\n\n\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
             }
 
             ShowCursorPos(x, y);
@@ -307,13 +304,13 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             if (player == player1) {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
 
             }
             else {
 
                 ShowCursorPos(displayX, displayY);
-                printf("\n\n\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+                printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
 
             }
 
@@ -322,9 +319,9 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
             InputSelect(player_number);
             loop = END;
 
-        case SPACE:      // 바둑돌을 착수할 때
+        case ENTER:      // 바둑돌을 착수할 때
 
-            if (play_count == 0 && !(y == 0 || y == 9 || x == 0 || x == 9)  && player == player1) {  // 가장자리에만 놓을 수 있게 처리 // 수정 // 두번째 y == 7 x == y 이였음 10 으로 수정
+            if (play_count == 0 && !(y == 0 || y == 7 || x == 0 || x == 7) && player == player1) {  // 가장자리에만 놓을 수 있게 처리
                 STARTFLAG = 1;
                 loop = END;
                 break;
@@ -368,8 +365,8 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     int i, j;
     int player1_do = 0;
-    double player2_do = 6.5;
-    double totalCount = 0;   // 돌의 총 수 저장
+    int player2_do = 0;
+    totalCount = 0;   // 돌의 총 수 저장
 
     for (i = 0; i < MAPSIZE; i++)
         for (j = 0; j < MAPSIZE; j++)
@@ -378,7 +375,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -393,16 +390,16 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
         ShowCursorPos(displayX, displayY);
 
         if (countReset1 < countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
         else if (countReset1 > countReset2)
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
         else
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n무승부네요!\n");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n무승부네요!\n");
 
         printf("1번 플레이어의 집 개수 : %d | 2번 플레이어의 집 개수 %d \n", player1_do + 2, player2_do);
         return 1;
     }
-    return 0;
+    return 0; 
 
 }
 
@@ -422,21 +419,21 @@ void ShowCheckerBoard() {                  // 화면 출력
                 printf("●");
             }
             else if (map[y][x] == NONE) { // 바둑판 출력
-                n = (x + 16) / 17 + (y + 16) / 17 * 3;
+                n = (x + 5) / 6 + (y + 5) / 6 * 3;
                 calculate[0] = mapGrid[n * 2];
-                calculate[1] = mapGrid[n * 2+1];
-                calculate[2] = 0;               // 바둑판을 19X19 로 만들기 위한 계산 과정
+                calculate[1] = mapGrid[n * 2 + 1];
+                calculate[2] = 0;               // 바둑판을 8x8 로 만들기 위한 계산 과정
 
                 printf("%s ", calculate);         // 바둑판 출력
             }
-        } 
+        }
         printf("\n");
     }
 
     ShowCursorPos(displayX, displayLineY);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n바둑을 시작합니다!\n");
+    printf("바둑을 시작합니다!\n");
     printf("키보드의 방향키로 위치 이동이 가능합니다.\n\n");
-    printf("\n\n*********** 사용 방법 ***********\n\n\n\n\n바둑돌 착수 : spacebar 키를 입력해주세요!\n수 무르기 : backspace 키를 입력해주세요!\n");
+    printf("*********** 사용 방법 ***********\n바둑돌 착수 : spacebar 키를 입력해주세요!\n수 무르기 : backspace 키를 입력해주세요!\n");
 }
 
 int StoneFind(int x, int y, int player_number)
@@ -492,13 +489,13 @@ void main() {
     ClearStones();
     ShowCheckerBoard();
 
-   
+
     while (GamePlayFlag != END) {
 
         ShowCursorPos(displayX, displayY);
 
         if (STARTFLAG == 1) {
-            printf("\n\n\n\n\n\n\n\n\n첫 수는 가장자리에만 놓을 수 있습니다.");
+            printf("\n\n\n\n첫 수는 가장자리에만 놓을 수 있습니다.");
             STARTFLAG = 0;
             player = player1;
         }
@@ -506,10 +503,10 @@ void main() {
         ShowCursorPos(displayX, displayY);
 
         if (player == player1) {
-            printf("\n\n\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n○(흑돌) 플레이어가 둘 차례입니다.");
         }
         else {
-            printf("\n\n\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
+            printf("\n\n\n\n\n\n●(백돌) 플레이어가 둘 차례입니다.");
         }
 
 
