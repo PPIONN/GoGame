@@ -28,7 +28,7 @@
 #define FALSE 0
 #define OK_COUNT 4
 
-int map[MAPSIZE][MAPSIZE];                  // 출력용 Map
+double map[MAPSIZE][MAPSIZE];                  // 출력용 Map
 int checkHouse[MAPSIZE][MAPSIZE];           // 놓는 위치를 기준으로 집이 있는지 판단하기 위한 Map
 int x, y = 3;
 int displayX = 0, displayLineY = 10, displayY = 12;   // 커서 출력
@@ -369,8 +369,8 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     int i, j;
     int player1_do = 0;
-    int player2_do = 0;
-    int totalCount = 0;   // 돌의 총 수 저장
+    double player2_do = 6.5;
+    double totalCount = 0;   // 돌의 총 수 저장
 
     for (i = 0; i < MAPSIZE; i++)
         for (j = 0; j < MAPSIZE; j++)
@@ -379,7 +379,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2+6, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -387,7 +387,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
     if (ret_count2 >= 2)
         printf("●(백돌)은 더 이상 무를 수 없습니다.\n");
 
-    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE) {
+    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE + 6.5) {
         player1_do = Find(player1);
         player2_do = Find(player2);
 
