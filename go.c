@@ -37,7 +37,7 @@ char mapGrid[] = "┌┬┐├┼┤└┴┘";            // 바둑판 그리�
 int countReset1 = 0;                     // for player 1) 집이 생겨 돌을 치울 때 지우기 위한 count 수
 int countReset2 = 0;                     // for player 2) 집이 생겨 돌을 치울 때 지우기 위한 count 수
 int count_return = 0;                     //두 번까지 무르기 확인하는 변수
-int totalCount = 0;                      // 지금까지 놓은 바둑돌의 개수
+double totalCount = 0;                      // 지금까지 놓은 바둑돌의 개수
 
 int STARTFLAG = 0;                        // 바둑 집 찾는 loop 반복 제어
 int ret_count1 = 0;                       // player1 두 수 무르기
@@ -325,7 +325,11 @@ void InputSelect(int player) {            // 현재 바둑을 두고 있는 플�
 
         case SPACE:      // 바둑돌을 착수할 때
 
-     
+            //if (play_count == 0 && !(y == 0 || y == 7 || x == 0 || x == 7) && player == player1) {  // 가장자리에만 놓을 수 있게 처리
+            //    STARTFLAG = 1;
+            //    loop = END;
+            //    break;
+            //}
 
             if (map[y][x] != NONE) break;
 
@@ -364,7 +368,7 @@ void CheckMyStonePos(int x, int y, int player_number) {
 int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     int i, j;
-    int player1_do = 0;
+    double player1_do = 0;
     double player2_do = 6.5;
     double totalCount = 0;   // 돌의 총 수 저장
 
@@ -375,7 +379,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %d\n1번 플레이어 : %d\n2번 플레이어 : %d\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2+6.5, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %.f\n1번 플레이어 : %.f\n2번 플레이어 : %.1f\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n", totalCount, countReset1, countReset2+6.5, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -383,7 +387,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
     if (ret_count2 >= 2)
         printf("●(백돌)은 더 이상 무를 수 없습니다.\n");
 
-    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE + 6.5) {
+    if ((totalCount + countReset1 + countReset2) == MAPSIZE * MAPSIZE +6.5 ) {
         player1_do = Find(player1);
         player2_do = Find(player2);
 
@@ -496,7 +500,11 @@ void main() {
 
         ShowCursorPos(displayX, displayY);
 
-     
+        if (STARTFLAG == 1) {
+            printf("\n\n\n\n\n\n\n\n\n첫 수는 가장자리에만 놓을 수 있습니다.");
+            STARTFLAG = 0;
+            player = player1;
+        }
 
         ShowCursorPos(displayX, displayY);
 
