@@ -370,7 +370,7 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     int i, j;
     double player1_do = 0;
-    double player2_do = 6.5;
+    double player2_do = 0;
     double totalCount = 0;   // 돌의 총 수 저장
 
     for (i = 0; i < MAPSIZE; i++)
@@ -380,8 +380,8 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
     ShowCursorPos(displayX, displayY + 3);
 
-    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %.f\n1번 플레이어 : %.f\n2번 플레이어 : %.1f\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n",
-        totalCount, countReset1, countReset2+6.5, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
+    printf("\n\n\n\n\n\n\n\n\n바둑돌을 둔 총 개수: %.f\n1번 플레이어 : %.f\n2번 플레이어 : %.f\n\n돌을 무른 횟수(최대 2회까지 가능합니다)\n1번 플레이어 : %d\n2번 플레이어 : %d\n",
+        totalCount, countReset1, countReset2, ret_count1, ret_count2);  // 돌의 총 개수, 플레이어1의 돌 수, 플레이어2의 돌 수 출력
 
     // 2번을 다 물렀을 때
     if (ret_count1 >= 2)
@@ -395,13 +395,13 @@ int GameStatus() {      // 현재 게임의 진행 상태를 알려주는 함수
 
         ShowCursorPos(displayX, displayY);
 
-        if (countReset1 < countReset2)
+        if (countReset1 < countReset2+6.5)
             printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n●(백돌)이 승리하였습니다!!\n");
-        else if (countReset1 > countReset2)
+        else if (countReset1 > countReset2+6.5)
             printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n축하합니다! \n○(흑돌)이 승리하였습니다!!\n");
 
 
-        printf("\n\n1번 플레이어의 집 개수 : %.f | 2번 플레이어의 집 개수 %.1f \n", player1_do + 2, player2_do);
+        printf("\n\n1번 플레이어의 집 개수 : %.f | 2번 플레이어의 집 개수 %.1f \n", player1_do + 2, player2_do+6.5);
         return 1;
     }
     return 0;
